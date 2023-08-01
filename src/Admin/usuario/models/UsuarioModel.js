@@ -1,0 +1,15 @@
+export const usuario = {
+    _id: "", 
+    nombre: "",
+    apellido: "",
+    edad: "",
+    correo: "",
+    password: "",
+    identificacion: "",
+    rol: "",
+    telefono: "",
+    ingresosMensuales: "",
+    identificacionMedico: "",
+    contacto: "",
+    tipoTrabajo: "",
+}

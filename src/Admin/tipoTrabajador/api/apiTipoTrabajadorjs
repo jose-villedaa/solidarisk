@@ -1,0 +1,115 @@
+import axios from "axios";
+import Swal from "sweetalert2";
+const token = localStorage.getItem("token");
+const URL = "https://solidarisk-back-end-original.vercel.app/api/tipoTrabajador/"
+
+
+export const apiTipoTrabajadorView = async () => {
+    try {
+        const response = await axios.get(`${URL}mostrar`);
+        
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+
+};
+
+export const apiPostTipoTrabajador = async (
+    tipo
+) => {
+    try {
+        const response = await axios.post(
+            `${URL}agregar`,
+            {
+                tipo: tipo,
+            }
+        );
+
+        return {
+            success: true,
+            message: "Tipo Trabajador agregado correctamente",
+        };
+    } catch (error) {
+        if (error.response) {
+            const { data } = error.response;
+            return {
+                success: false,
+                message: data.error,
+            };
+        } else {
+            return {
+                success: false,
+                message: "Error al procesar la solicitud",
+            };
+        }
+    }
+};
+
+export const apiDeleteTipoTrabajador = async (id) => {
+    try {
+        const { data } = await axios.delete(`${URL}eliminar/${id}`);
+
+        return true;
+    } catch ({
+        response: {
+            data: { message },
+        },
+    }) {
+        if (message === "Tipo Trabajador Eliminado") {
+            window.location.href = "/login";
+        }
+        if (message) {
+            return message;
+        }
+    }
+};
+
+export const apiPutTipoTrabajador = async (id, tipo) => {
+    try {
+      const { data } = await axios.put(
+        `${URL}editar/${id}`,
+        {
+          tipo
+          
+        },
+        { headers: { "x-token": token } }
+      );
+      console.log("Entre");
+      return true;
+    } catch ({
+      response: {
+        data: { message },
+      },
+    }) {
+      console.log(message.password.msg);
+      if (message === "el token ha expirado") {
+        localStorage.removeItem("token");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: message,
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/login";
+          } else if (result.isDenied) {
+            window.location.href = "/login";
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: age,
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+          } else {
+          }
+        });
+      }
+    }
+  };
